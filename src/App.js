@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Chat } from "./components/Chat";
+import { Sidebar } from "./components/Sidebar";
+import { BrowserRouter, Route } from "react-router-dom";
+import { db } from "./db";
+// import { useEffect } from "react";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        
+        <Sidebar db={db} />
+
+        {/* {db.map((chat, id) => (
+          <Route key={id} path={`/${chat.chatName || ''}`} render={() => <Chat db={chat} />} />
+        ))} */}
+        <Route exact path="/" render={() => <Chat db={db[0]} />} />
+        <Route path="/work" render={() => <Chat db={db[0]} />} />
+        <Route path="/flooood" render={() => <Chat db={db[1]} />} />
+      </div>
+    </BrowserRouter>
   );
 }
 
