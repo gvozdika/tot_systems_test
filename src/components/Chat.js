@@ -1,18 +1,25 @@
 import { ChatInput } from "./ChatInput";
 import { MessagesList } from "./MessagesList";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export const Chat = ({ db }) => {
-  const [messages, setMessages] = useState(db.msgs);
+  const { chatName } = useParams();
+
+  const [messages, setMessages] = useState(
+    localStorage.getItem(chatName)
+      ? JSON.parse(localStorage.getItem(chatName))
+      : db.find((chat) => chat.chatName === chatName).msgs
+  );
 
   useEffect(() => {
-    localStorage.getItem(`${db.chatName}`)
-    ? setMessages(JSON.parse(localStorage.getItem(`${db.chatName}`)))
-    : setMessages(db.msgs);
-  }, [])
+    localStorage.getItem(chatName)
+      ? setMessages(JSON.parse(localStorage.getItem(chatName)))
+      : setMessages(db.find((chat) => chat.chatName === chatName).msgs);
+  }, [chatName]);
 
   useEffect(() => {
-    localStorage.setItem(`${db.chatName}`, JSON.stringify(messages));
+    localStorage.setItem(`${chatName}`, JSON.stringify(messages));
   }, [messages]);
 
   const createMsg = (msg) => {
