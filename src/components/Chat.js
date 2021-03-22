@@ -46,7 +46,7 @@ export const Chat = ({ db }) => {
   return (
     <div className="chat">
       <div className="chat__header">
-        <h3 className="chat__name">{db.chatName}</h3>
+        <h3 className="chat__name">{chatName}</h3>
       </div>
 
       <MessagesList
